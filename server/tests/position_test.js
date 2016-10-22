@@ -11,4 +11,20 @@ describe('Position', function() {
 
         expect(actual).to.equal(expected);
     });
+
+    it("throws err for invalid x > 7", function() {
+        expect(function(){new Position(8,1)}).to.throw(Error);
+    });
+
+    it("throws err for invalid x < 0", function() {
+        expect(function(){new Position(-1,1)}).to.throw(Error);
+    });
+
+    it("throws err for invalid y > 7", function() {
+        expect(function(){new Position(1,8)}).to.throw(Error);
+    });
+
+    it("throws err for invalid y < -1", function() {
+        expect(function(){new Position(1,-1)}).to.throw(Error);
+    });
 })

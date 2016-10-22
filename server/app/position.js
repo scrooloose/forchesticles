@@ -11,11 +11,11 @@ class Position {
     }
 
     _validatePos() {
-        if (this.x < 0 || this.x > 8)
-            throw "Invalid X Coord:" + this.x;
+        if (this.x < 0 || this.x > 7)
+            throw new Error("Invalid X Coord:" + this.x);
 
-        if (this.y < 0 || this.y > 8)
-            throw "Invalid Y Coord:" + this.y;
+        if (this.y < 0 || this.y > 7)
+            throw new Error("Invalid Y Coord:" + this.y);
 
     }
 
