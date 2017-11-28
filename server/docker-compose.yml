@@ -1,0 +1,11 @@
+version: "2"
+
+services:
+  server:
+    build: .
+    command: "node index.js"
+    volumes:
+      - .:/app
+
+    ports:
+      - "9378:9378"
