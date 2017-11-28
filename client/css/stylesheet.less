@@ -1,0 +1,53 @@
+.board {
+    background: orange;
+    border: 1px solid blue;
+    width: 480px;
+
+    .row {
+        clear: both;
+
+        .square {
+            width: 50px;
+            height: 50px;
+            float: left;
+            padding: 5px;
+            background: lightblue;
+            background-position: 5px 5px;
+            background-repeat: no-repeat;
+        }
+
+        .square.dark {
+            background: blue;
+            background-position: 5px 5px;
+            background-repeat: no-repeat;
+        }
+
+        .square.selected,
+        .square.dark.selected {
+            background: darkblue;
+            background-position: 5px 5px;
+            background-repeat: no-repeat;
+        }
+
+        .square,
+        .square.dark,
+        .square.selected {
+        }
+    }
+
+}
+
+// https://css-tricks.com/snippets/css/clear-fix/
+.group:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+// https://css-tricks.com/box-sizing/
+html {
+  box-sizing: content-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}

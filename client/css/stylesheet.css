@@ -1,0 +1,41 @@
+.board {
+  background: orange;
+  border: 1px solid blue;
+  width: 480px;
+}
+.board .row {
+  clear: both;
+}
+.board .row .square {
+  width: 50px;
+  height: 50px;
+  float: left;
+  padding: 5px;
+  background: lightblue;
+  background-position: 5px 5px;
+  background-repeat: no-repeat;
+}
+.board .row .square.dark {
+  background: blue;
+  background-position: 5px 5px;
+  background-repeat: no-repeat;
+}
+.board .row .square.selected,
+.board .row .square.dark.selected {
+  background: darkblue;
+  background-position: 5px 5px;
+  background-repeat: no-repeat;
+}
+.group:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+html {
+  box-sizing: content-box;
+}
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
