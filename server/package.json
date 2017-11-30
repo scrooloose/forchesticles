@@ -11,5 +11,8 @@
   "license": "wtfpl",
   "devDependencies": {
     "chai": "^3.5.0"
+  },
+  "dependencies": {
+    "object-clone": "^1.0.0"
   }
 }

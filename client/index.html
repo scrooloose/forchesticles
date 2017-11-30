@@ -19,6 +19,10 @@
             $(function() {
                 engine = new ClientEngine();
                 engine.start();
+
+                $('#undo-move').click(function() {
+                    engine.undoMove();
+                });
             });
         </script>
 
@@ -112,5 +116,7 @@
                 <div class="square" data-row="0" data-col="7"></div>
             </div>
         </div>
+
+        <button id="undo-move" style="margin-top: 40px">Undo</button>
     </body>
 </html>

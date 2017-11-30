@@ -1,2 +1,2 @@
-App = require("./app")
-new App({}).start();
+Server = require("./server")
+new Server({}).start();

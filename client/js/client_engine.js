@@ -3,6 +3,7 @@ function ClientEngine() {
     this.serverPort = 9378;
     this.board = new Board(this);
     this.socket = null;
+    this.refreshDelay = 5000;
 }
 
 ClientEngine.prototype._extractHost = function() {
@@ -19,30 +20,36 @@ ClientEngine.prototype.start = function() {
     this.socket = new WebSocket('ws://' + this.serverHost + ':' + this.serverPort);
 
     this.socket.onopen = function() {
-        console.log($this.socket.send("GetBoard"));
+        $this.socket.send( JSON.stringify({ call: "GetBoard" }));
 
         window.setInterval(function() {
-            $this.socket.send("GetBoard");
-        }, 5000);
+            $this.socket.send(
+                JSON.stringify({ call: "GetBoard" })
+            );
+        }, $this.refreshDelay);
 
     };
 
     this.socket.onmessage = function(message) {
-        $this.board.render(JSON.parse(message.data));
+        $this.board.render(JSON.parse(message.data)["board"]);
     };
 
 }
 
 ClientEngine.prototype.moveMade = function(s1, s2) {
-    console.log("move");
-    move = JSON.stringify({ from: s1, to: s2 });
+    move = JSON.stringify({
+        call: "DoMove",
+        args: { from: s1, to: s2 }
+    });
     this.socket.send(move);
 }
 
+ClientEngine.prototype.undoMove = function(moveNum) {
+    undo = JSON.stringify({ call: "UndoMove" });
+    this.socket.send(undo);
+}
 
 // Add movelistener or similar for board to send moves back to engine
-
-
 
 function Board(moveListener) {
     this.addSquareListener();
@@ -81,7 +88,6 @@ Board.prototype.squareSelected = function(square) {
         this.selectedSquare = square;
     }
 };
-
 
 Board.prototype.setPieces = function(boardState) {
     for(i = 0; i < boardState.length; i++) {

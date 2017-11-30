@@ -3,7 +3,7 @@ version: "2"
 services:
   server:
     build: .
-    command: "node index.js"
+    command: "nodemon index.js"
     volumes:
       - .:/app
 
