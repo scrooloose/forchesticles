@@ -4,6 +4,7 @@ function ClientEngine() {
     this.board = new Board(this);
     this.socket = null;
     this.refreshDelay = 5000;
+    this.gameId = null;
 }
 
 ClientEngine.prototype._extractHost = function() {
@@ -20,33 +21,50 @@ ClientEngine.prototype.start = function() {
     this.socket = new WebSocket('ws://' + this.serverHost + ':' + this.serverPort);
 
     this.socket.onopen = function() {
-        $this.socket.send( JSON.stringify({ call: "GetBoard" }));
+        $this.socket.send(JSON.stringify({
+            call: "NewGame"
+        }));
 
         window.setInterval(function() {
             $this.socket.send(
-                JSON.stringify({ call: "GetBoard" })
+                JSON.stringify({
+                    call: "GetBoard",
+                    args: { game_id: $this.gameId }
+                })
             );
         }, $this.refreshDelay);
 
     };
 
     this.socket.onmessage = function(message) {
-        $this.board.render(JSON.parse(message.data)["board"]);
+        var parsedMsg = JSON.parse(message.data)
+        $this.gameId = parsedMsg.gameId;
+        $this.board.render(parsedMsg.board);
     };
 
 }
 
 ClientEngine.prototype.moveMade = function(s1, s2) {
-    move = JSON.stringify({
-        call: "DoMove",
-        args: { from: s1, to: s2 }
-    });
-    this.socket.send(move);
+    this._sendReq(
+        "DoMove",
+        { game_id: this.gameId, from: s1, to: s2 }
+    );
 }
 
 ClientEngine.prototype.undoMove = function(moveNum) {
-    undo = JSON.stringify({ call: "UndoMove" });
-    this.socket.send(undo);
+    this._sendReq(
+        "UndoMove",
+        { game_id: this.gameId }
+    );
+}
+
+ClientEngine.prototype._sendReq = function(call, args) {
+    this.socket.send(
+        JSON.stringify({
+            call: call,
+            args: args
+        })
+    );
 }
 
 // Add movelistener or similar for board to send moves back to engine
@@ -92,9 +110,6 @@ Board.prototype.squareSelected = function(square) {
 Board.prototype.setPieces = function(boardState) {
     for(i = 0; i < boardState.length; i++) {
         var piece = boardState[i];
-        if(piece.player == 1) {
-            //console.log(piece.position);
-        }
         var square = $('.square[data-col=' + piece.position.x + '][data-row=' + piece.position.y + ']');
 
         var color = this.colorFor(piece.player);

@@ -2,9 +2,10 @@ Board = require("./board");
 Move = require("./move");
 
 class Game {
-    constructor(args) {
+    constructor(id) {
         this.board = new Board();
         this.moves = [];
+        this.id = id;
     }
 
     handleMove(from, to) {
@@ -24,8 +25,8 @@ class Game {
 
     toJSON() {
         return JSON.stringify({
-            "moves": this.moves.map(m => m.toJSON()),
-            "board": this.board.toJSON()
+            "board": this.board.toJSON(),
+            "gameId": this.id
         });
     }
 }
