@@ -1,0 +1,11 @@
+version: "2"
+
+services:
+  server:
+    build: .
+    command: "nodemon bin/www"
+    volumes:
+      - .:/app
+
+    ports:
+      - "5000:3000"

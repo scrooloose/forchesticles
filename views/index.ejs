@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title><%= title %></title>
+    <script src="javascripts/jquery-3.1.1.min.js"></script>
+    <script src="javascripts/client_engine.js"></script>
+    <script src="javascripts/helpers.js"></script>
+
+    <link rel="stylesheet" href="stylesheets/reset.css" type="text/css" media="screen">
+    <link rel="stylesheet" href="stylesheets/stylesheet.css" type="text/css" media="screen">
+
+
+  </head>
+  <body>
+    <table id="board"></table>
+
+    <script type="text/javascript">
+      $(function() {
+        var engine = new ClientEngine();
+
+        $('#undo-move').click(function() {
+          engine.undoMove();
+        });
+
+        var gameList = new GameList($('#join-game-links'), engine)
+        gameList.update();
+
+        $('#new-game').click(function() {
+          engine.newGame();
+          gameList.update();
+        });
+
+        $('#delete-game').click(function() {
+          engine.deleteCurrentGame();
+        });
+      });
+    </script>
+
+    <div class="board group">
+
+      <div class="row">
+        <div class="square" data-row="7" data-col="0"></div>
+        <div class="square dark" data-row="7" data-col="1"></div>
+        <div class="square" data-row="7" data-col="2"></div>
+        <div class="square dark" data-row="7" data-col="3"></div>
+        <div class="square" data-row="7" data-col="4"></div>
+        <div class="square dark" data-row="7" data-col="5"></div>
+        <div class="square" data-row="7" data-col="6"></div>
+        <div class="square dark" data-row="7" data-col="7"></div>
+      </div>
+
+      <div class="row">
+        <div class="square dark" data-row="6" data-col="0"></div>
+        <div class="square" data-row="6" data-col="1"></div>
+        <div class="square dark" data-row="6" data-col="2"></div>
+        <div class="square" data-row="6" data-col="3"></div>
+        <div class="square dark" data-row="6" data-col="4"></div>
+        <div class="square" data-row="6" data-col="5"></div>
+        <div class="square dark" data-row="6" data-col="6"></div>
+        <div class="square" data-row="6" data-col="7"></div>
+      </div>
+
+      <div class="row">
+        <div class="square" data-row="5" data-col="0"></div>
+        <div class="square dark" data-row="5" data-col="1"></div>
+        <div class="square" data-row="5" data-col="2"></div>
+        <div class="square dark" data-row="5" data-col="3"></div>
+        <div class="square" data-row="5" data-col="4"></div>
+        <div class="square dark" data-row="5" data-col="5"></div>
+        <div class="square" data-row="5" data-col="6"></div>
+        <div class="square dark" data-row="5" data-col="7"></div>
+      </div>
+
+      <div class="row">
+        <div class="square dark" data-row="4" data-col="0"></div>
+        <div class="square" data-row="4" data-col="1"></div>
+        <div class="square dark" data-row="4" data-col="2"></div>
+        <div class="square" data-row="4" data-col="3"></div>
+        <div class="square dark" data-row="4" data-col="4"></div>
+        <div class="square" data-row="4" data-col="5"></div>
+        <div class="square dark" data-row="4" data-col="6"></div>
+        <div class="square" data-row="4" data-col="7"></div>
+      </div>
+
+      <div class="row">
+        <div class="square" data-row="3" data-col="0"></div>
+        <div class="square dark" data-row="3" data-col="1"></div>
+        <div class="square" data-row="3" data-col="2"></div>
+        <div class="square dark" data-row="3" data-col="3"></div>
+        <div class="square" data-row="3" data-col="4"></div>
+        <div class="square dark" data-row="3" data-col="5"></div>
+        <div class="square" data-row="3" data-col="6"></div>
+        <div class="square dark" data-row="3" data-col="7"></div>
+      </div>
+
+      <div class="row">
+        <div class="square dark" data-row="2" data-col="0"></div>
+        <div class="square" data-row="2" data-col="1"></div>
+        <div class="square dark" data-row="2" data-col="2"></div>
+        <div class="square" data-row="2" data-col="3"></div>
+        <div class="square dark" data-row="2" data-col="4"></div>
+        <div class="square" data-row="2" data-col="5"></div>
+        <div class="square dark" data-row="2" data-col="6"></div>
+        <div class="square" data-row="2" data-col="7"></div>
+      </div>
+
+      <div class="row">
+        <div class="square" data-row="1" data-col="0"></div>
+        <div class="square dark" data-row="1" data-col="1"></div>
+        <div class="square" data-row="1" data-col="2"></div>
+        <div class="square dark" data-row="1" data-col="3"></div>
+        <div class="square" data-row="1" data-col="4"></div>
+        <div class="square dark" data-row="1" data-col="5"></div>
+        <div class="square" data-row="1" data-col="6"></div>
+        <div class="square dark" data-row="1" data-col="7"></div>
+      </div>
+
+      <div class="row">
+        <div class="square dark" data-row="0" data-col="0"></div>
+        <div class="square" data-row="0" data-col="1"></div>
+        <div class="square dark" data-row="0" data-col="2"></div>
+        <div class="square" data-row="0" data-col="3"></div>
+        <div class="square dark" data-row="0" data-col="4"></div>
+        <div class="square" data-row="0" data-col="5"></div>
+        <div class="square dark" data-row="0" data-col="6"></div>
+        <div class="square" data-row="0" data-col="7"></div>
+      </div>
+    </div>
+
+    <div style="margin-top: 40px">
+      <button id="undo-move">Undo</button>
+      <button id="new-game">New Game</button>
+      <button id="delete-game">Delete Game</button>
+    </div>
+
+    <div id="join-game-links"></div>
+  </body>
+</html>
