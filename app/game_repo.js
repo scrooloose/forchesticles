@@ -2,14 +2,17 @@ Game = require("./game");
 
 class GameRepo {
   constructor() {
-    this.games = {};
-    this.nextGameId = 1;
+    this._games = {};
+    this._nextGameId = 1;
   }
+
+  get games() { return this._games }
+  get nextGameId() { return this._nextGameId }
 
   createNewGame() {
     var game = new Game(this.nextGameId);
     this.games[this.nextGameId] = game;
-    this.nextGameId++;
+    this._nextGameId++;
     return game;
   }
 

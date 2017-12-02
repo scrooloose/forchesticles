@@ -9,7 +9,7 @@ class Board {
       this.resetBoard();
   }
 
-  getPieces() { return this._pieces }
+  get pieces() { return this._pieces }
 
   toJSON() {
     var rv = [];
