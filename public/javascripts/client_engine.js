@@ -1,9 +1,6 @@
 class ClientEngine {
   constructor() {
-    this.serverHost = this._extractHost();
-    this.serverPort = 9378;
     this.board = new Board(this);
-    this.socket = null;
     this.refreshDelay = 5000;
     this.gameId = null;
   }
