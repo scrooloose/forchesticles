@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 
 class Square extends Component {
-  constructor(props) {
-    super(props);
-    this.handleClick = this.handleClick.bind(this);
-  }
-
-  handleClick() {
-    this.props.onSquareSelected(this.props)
+  emitSquareSelected() {
+    this.props.eventEmitter.emit(
+      "squareSelected",
+      this.props
+    );
   }
 
   klassName() {
@@ -26,8 +24,8 @@ class Square extends Component {
   render() {
     return (
       <div
-         className={this.klassName()}
-         onClick={this.handleClick} />
+        className={this.klassName()}
+        onClick={() => this.emitSquareSelected()} />
     );
   }
 }

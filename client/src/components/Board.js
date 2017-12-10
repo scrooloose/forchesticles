@@ -9,38 +9,56 @@ class Board extends Component {
       selected: { }
     }
 
-    this.handleSquareSelected = this.handleSquareSelected.bind(this);
+    this.props.eventEmitter.on(
+      "squareSelected", (args) => this.handleSquareSelected(args)
+    )
   }
 
   handleSquareSelected(square) {
-    var $this = this;
-    if( Object.keys(this.state.selected).length === 0 ) { //no selected square
-      this.setState({
-        selected: { x: square.x, y: square.y }
-      })
+    if(!this.aSquareIsSelected()) { //no selected square
+      this.setState({ selected: square })
     } else {
-      $this.setState({selected: {}});
-      $this.props.eventEmitter.emit(
+      if (this.isSelected(square)) {
+        this.setState({selected: {}});
+        return;
+      }
+
+      this.setState({selected: {}});
+      this.props.eventEmitter.emit(
         "moveMade",
         {from: this.state.selected, to: { x: square.x, y: square.y }}
       );
+
     }
+  }
+
+  isSelected({x, y}) {
+    return this.aSquareIsSelected() && this.state.selected.x === x && this.state.selected.y === y;
+  }
+
+  aSquareIsSelected() {
+    return Object.keys(this.state.selected).length !== 0;
   }
 
   pieceFor(x,y) {
     return this.props.pieces[y][x];
   }
 
-  isSelected(x,y) {
-    return this.state.selected.x === x && this.state.selected.y === y;
-  }
-
   squareFor(x,y) {
     var piece = this.pieceFor(x,y);
     var key = parseInt(y, 10) * 8 + parseInt(x, 10);
-    var selected = this.isSelected(x,y);
+    var selected = this.isSelected({x,y});
 
-    return <Square key={key} x={x} y={y} piece={piece && piece.piece.toLowerCase()} player={piece && piece.player} selected={selected} onSquareSelected={this.handleSquareSelected} />;
+    return (
+      <Square
+        key={key}
+        x={x} y={y}
+        piece={piece && piece.piece.toLowerCase()}
+        player={piece && piece.player}
+        selected={selected}
+        eventEmitter={this.props.eventEmitter}
+        onSquareSelected={this.handleSquareSelected} />
+    );
   }
 
   render() {
