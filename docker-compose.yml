@@ -2,10 +2,20 @@ version: "2"
 
 services:
   server:
-    build: .
-    command: "nodemon bin/www"
+    build: ./server
+    command: "nodemon ./bin/www"
     volumes:
-      - .:/app
+      - ./server:/app
 
     ports:
       - "5000:3000"
+
+  client:
+    build: ./client
+    command: "npm start"
+    volumes:
+      - ./client:/app
+
+    ports:
+      - "5001:3000"
+

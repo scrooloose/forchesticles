@@ -1,0 +1,81 @@
+.board {
+  border: 1px solid blue;
+  width: 480px; }
+  .board .row {
+    clear: both; }
+    .board .row .square {
+      width: 50px;
+      height: 50px;
+      float: left;
+      padding: 5px;
+      background: lightblue;
+      background-position: 5px 5px;
+      background-repeat: no-repeat; }
+      .board .row .square.king.player-1 {
+        background-image: url("/images/pieces/player1/king.png"); }
+      .board .row .square.queen.player-1 {
+        background-image: url("/images/pieces/player1/queen.png"); }
+      .board .row .square.rook.player-1 {
+        background-image: url("/images/pieces/player1/rook.png"); }
+      .board .row .square.knight.player-1 {
+        background-image: url("/images/pieces/player1/knight.png"); }
+      .board .row .square.bishop.player-1 {
+        background-image: url("/images/pieces/player1/bishop.png"); }
+      .board .row .square.pawn.player-1 {
+        background-image: url("/images/pieces/player1/pawn.png"); }
+      .board .row .square.king.player-2 {
+        background-image: url("/images/pieces/player2/king.png"); }
+      .board .row .square.queen.player-2 {
+        background-image: url("/images/pieces/player2/queen.png"); }
+      .board .row .square.rook.player-2 {
+        background-image: url("/images/pieces/player2/rook.png"); }
+      .board .row .square.knight.player-2 {
+        background-image: url("/images/pieces/player2/knight.png"); }
+      .board .row .square.bishop.player-2 {
+        background-image: url("/images/pieces/player2/bishop.png"); }
+      .board .row .square.pawn.player-2 {
+        background-image: url("/images/pieces/player2/pawn.png"); }
+      .board .row .square.king.player-3 {
+        background-image: url("/images/pieces/player3/king.png"); }
+      .board .row .square.queen.player-3 {
+        background-image: url("/images/pieces/player3/queen.png"); }
+      .board .row .square.rook.player-3 {
+        background-image: url("/images/pieces/player3/rook.png"); }
+      .board .row .square.knight.player-3 {
+        background-image: url("/images/pieces/player3/knight.png"); }
+      .board .row .square.bishop.player-3 {
+        background-image: url("/images/pieces/player3/bishop.png"); }
+      .board .row .square.pawn.player-3 {
+        background-image: url("/images/pieces/player3/pawn.png"); }
+      .board .row .square.king.player-4 {
+        background-image: url("/images/pieces/player4/king.png"); }
+      .board .row .square.queen.player-4 {
+        background-image: url("/images/pieces/player4/queen.png"); }
+      .board .row .square.rook.player-4 {
+        background-image: url("/images/pieces/player4/rook.png"); }
+      .board .row .square.knight.player-4 {
+        background-image: url("/images/pieces/player4/knight.png"); }
+      .board .row .square.bishop.player-4 {
+        background-image: url("/images/pieces/player4/bishop.png"); }
+      .board .row .square.pawn.player-4 {
+        background-image: url("/images/pieces/player4/pawn.png"); }
+      .board .row .square.selected {
+        background-color: #0024ff !important; }
+  .board .row:nth-child(2n) .square:nth-child(2n+1),
+  .board .row:nth-child(2n+1) .square:nth-child(2n) {
+    background-color: #008aff; }
+
+.group:after {
+  content: "";
+  display: table;
+  clear: both; }
+
+html {
+  box-sizing: content-box; }
+
+*, *:before, *:after {
+  box-sizing: inherit; }
+
+/*# sourceMappingURL=stylesheet.css.map */
+
+/*# sourceMappingURL=App.css.map */
