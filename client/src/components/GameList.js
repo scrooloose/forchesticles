@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import superagent from 'superagent';
+import ForchessAPI from '../services/ForchessAPI';
 
 const RefreshRate = 3000;
 
@@ -13,11 +13,8 @@ class GameList extends Component {
   }
 
   refreshAvailableGames() {
-    superagent
-      .get('http://localhost:5000/api/v1/games/')
-      .end((err, res) => {
-        this.setState({availableGameIds: JSON.parse(res.body)})
-      });
+    ForchessAPI.getGameIds()
+      .then((ids) => { this.setState({availableGameIds: ids}) } )
   }
 
   componentDidMount() {

@@ -14,7 +14,7 @@ router.post('/games', function(req, res, next) {
 });
 
 router.get('/games', function(req, res, next) {
-  res.json(JSON.stringify(gameRepo.allGameIds()));
+  res.send(JSON.stringify(gameRepo.allGameIds()));
 });
 
 router.get('/games/:id', function(req, res, next) {
@@ -25,7 +25,7 @@ router.get('/games/:id', function(req, res, next) {
 
 router.post('/games/:id/delete', function(req, res, next) {
   gameRepo.destroy(req.params.id);
-  res.send("OK");
+  res.send({result: "OK"});
 });
 
 router.post('/games/:game_id/moves', function(req, res, next) {

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import Board from './Board';
 import GameOptions from './GameOptions';
-import superagent from 'superagent';
 import '../styles/App.css';
 import events from 'events';
+import ForchessAPI from '../services/ForchessAPI';
 
 class App extends Component {
 
@@ -28,9 +28,9 @@ class App extends Component {
       return;
     }
 
-    superagent
-      .get('http://localhost:5000/api/v1/games/' + this.state.gameId)
-      .end((err, res) => this.setState({game: res.body}) );
+    ForchessAPI.getGame(this.state.gameId).then(
+      (res) => this.setState({game: res})
+    );
   }
 
   componentDidMount() {
@@ -42,10 +42,11 @@ class App extends Component {
   }
 
   handleMove({from, to}) {
-    superagent
-      .post('http://localhost:5000/api/v1/games/' + this.state.gameId + '/moves')
-      .send({ from: from, to: to })
-      .end((err, res) => this.fetchGameInfo());
+    ForchessAPI.sendMove({
+      gameId: this.state.gameId,
+      from: from,
+      to: to
+    }).then(() => this.fetchGameInfo())
   }
 
   handleGameJoined({gameId}) {
@@ -57,28 +58,22 @@ class App extends Component {
   }
 
   handleNewGame() {
-    superagent
-      .post('http://localhost:5000/api/v1/games/')
-      .end((err, res) => {
-        this.joinGame(res.body.gameId);
-        this.eventEmitter.emit("gameCreated");
-      });
+    ForchessAPI.newGame().then((res) => {
+      this.joinGame(res.gameId);
+      this.eventEmitter.emit("gameCreated");
+    });
   }
 
   handleUndoMove() {
-    superagent
-      .post('http://localhost:5000/api/v1/games/' + this.state.gameId + '/undos')
-      .end((err, res) => this.fetchGameInfo());
+    ForchessAPI.undoMove(this.state.gameId)
+      .then(() => this.fetchGameInfo());
   }
 
   handleDeleteGame() {
-    superagent
-      .post('http://localhost:5000/api/v1/games/' + this.state.gameId + '/delete')
-      .end((err, res) => {
-        this.setState({gameId: null, game: null});
-        this.eventEmitter.emit("gameDeleted");
-      }
-    );
+    ForchessAPI.deleteGame(this.state.gameId).then((res) => {
+      this.setState({gameId: null, game: null});
+      this.eventEmitter.emit("gameDeleted");
+    });
   }
 
   emptyBoard() {
