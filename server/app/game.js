@@ -33,7 +33,8 @@ class Game {
   toJSON() {
     return JSON.stringify({
       "board": this.board.toJSON(),
-      "gameId": this.id
+      "gameId": this.id,
+      "lastMove": this.moves[this.moves.length-1]
     });
   }
 }

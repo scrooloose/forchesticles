@@ -44,10 +44,19 @@ class Board extends Component {
     return this.props.pieces[y][x];
   }
 
+  isInLastMove(x,y) {
+    if (!this.props.lastMove) return false;
+
+    let { from, to } = this.props.lastMove;
+
+    return (from.x === x && from.y === y) || (to.x === x && to.y === y);
+  }
+
   squareFor(x,y) {
     var piece = this.pieceFor(x,y);
     var key = parseInt(y, 10) * 8 + parseInt(x, 10);
     var selected = this.isSelected({x,y});
+    var inLastMove = this.isInLastMove(x,y);
 
     return (
       <Square
@@ -56,6 +65,7 @@ class Board extends Component {
         piece={piece && piece.piece.toLowerCase()}
         player={piece && piece.player}
         selected={selected}
+        inLastMove={inLastMove}
         eventEmitter={this.props.eventEmitter}
         onSquareSelected={this.handleSquareSelected} />
     );

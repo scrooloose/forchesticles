@@ -18,6 +18,10 @@ class Square extends Component {
       klasses.push('selected');
     }
 
+    if (this.props.inLastMove) {
+      klasses.push('in-last-move');
+    }
+
     return klasses.join(' ');
   }
 

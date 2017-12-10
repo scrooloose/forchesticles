@@ -82,10 +82,12 @@ class App extends Component {
 
   render() {
     let pieces = this.state.game ? this.state.game.board : this.emptyBoard();
+    let lastMove = this.state.game ? this.state.game.lastMove : null;
 
     return (
       <div className="App">
         <Board
+          lastMove={lastMove}
           pieces={pieces}
           eventEmitter={this.eventEmitter} />
         <GameOptions

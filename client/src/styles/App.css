@@ -64,6 +64,11 @@
   .board .row:nth-child(2n) .square:nth-child(2n+1),
   .board .row:nth-child(2n+1) .square:nth-child(2n) {
     background-color: #008aff; }
+  .board .row .square.in-last-move {
+    background-color: #b7ce82; }
+  .board .row:nth-child(2n) .square:nth-child(2n+1).in-last-move,
+  .board .row:nth-child(2n+1) .square:nth-child(2n).in-last-move {
+    background-color: #73a36c; }
 
 .group:after {
   content: "";

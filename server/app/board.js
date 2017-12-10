@@ -26,6 +26,7 @@ class Board {
     this._pieces.forEach(function(piece){
       rv[piece.position.y][piece.position.x] = piece;
     });
+
     return rv
   }
 
