@@ -1,21 +1,22 @@
 import React, { Component } from 'react';
 import superagent from 'superagent';
 
-const RefreshRate = 1000;
+const RefreshRate = 3000;
 
 class GameList extends Component {
   constructor(props) {
     super(props);
     this.state = { availableGameIds: [] };
     this.refreshAvailableGames();
+    this.props.eventEmitter.on("gameCreated", () => this.refreshAvailableGames());
+    this.props.eventEmitter.on("gameDeleted", () => this.refreshAvailableGames());
   }
 
   refreshAvailableGames() {
-    let $this = this
     superagent
       .get('http://localhost:5000/api/v1/games/')
       .end((err, res) => {
-        $this.setState({availableGameIds: JSON.parse(res.body)})
+        this.setState({availableGameIds: JSON.parse(res.body)})
       });
   }
 
@@ -27,14 +28,18 @@ class GameList extends Component {
     clearInterval(this.timerID);
   }
 
+  emitJoin(gameId) {
+    this.props.eventEmitter.emit("gameJoined", {gameId: gameId})
+  }
+
   joinLink(gameId) {
-    if (gameId === this.props.gameId) {
+    if (parseInt(gameId,10) === parseInt(this.props.gameId, 10)) {
       return (
-        <span>Game #{gameId}</span>
+        <span>Game #{gameId} &#x2190; </span>
       )
     } else {
       return (
-        <a href={"#game-" + gameId} data-game-id={gameId} onClick={() => this.props.onJoinGame(gameId)}>
+        <a href={"#game-" + gameId} data-game-id={gameId} onClick={() => this.emitJoin(gameId)}>
           Game #{gameId}
         </a>
       )

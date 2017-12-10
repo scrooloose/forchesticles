@@ -20,7 +20,10 @@ class Board extends Component {
       })
     } else {
       $this.setState({selected: {}});
-      $this.props.onMakeMove(this.state.selected, { x: square.x, y: square.y });
+      $this.props.eventEmitter.emit(
+        "moveMade",
+        {from: this.state.selected, to: { x: square.x, y: square.y }}
+      );
     }
   }
 

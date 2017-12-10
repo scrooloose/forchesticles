@@ -3,6 +3,7 @@ import Board from './Board';
 import GameOptions from './GameOptions';
 import superagent from 'superagent';
 import '../styles/App.css';
+import events from 'events';
 
 class App extends Component {
 
@@ -13,11 +14,13 @@ class App extends Component {
       gameId: null
     };
     this.fetchGameInfo();
-    this.onJoinGame = this.onJoinGame.bind(this);
-    this.onNewGame = this.onNewGame.bind(this);
-    this.onMakeMove = this.onMakeMove.bind(this);
-    this.onUndoMove = this.onUndoMove.bind(this);
-    this.onDeleteGame = this.onDeleteGame.bind(this);
+
+    this.eventEmitter = new events.EventEmitter();
+    this.eventEmitter.on("moveMade", (args) => this.handleMove(args))
+    this.eventEmitter.on("gameJoined", (args) => this.handleGameJoined(args))
+    this.eventEmitter.on("newGame", (args) => this.handleNewGame(args))
+    this.eventEmitter.on("undoMove", (args) => this.handleUndoMove(args))
+    this.eventEmitter.on("deleteGame", (args) => this.handleDeleteGame(args))
   }
 
   fetchGameInfo() {
@@ -38,38 +41,44 @@ class App extends Component {
     clearInterval(this.timerID);
   }
 
-  onMakeMove(from, to) {
+  handleMove({from, to}) {
     superagent
       .post('http://localhost:5000/api/v1/games/' + this.state.gameId + '/moves')
       .send({ from: from, to: to })
       .end((err, res) => this.fetchGameInfo());
   }
 
-  onJoinGame(gameId) {
+  handleGameJoined({gameId}) {
+    this.joinGame(gameId);
+  }
+
+  joinGame(gameId) {
     this.setState({gameId: gameId}, () => this.fetchGameInfo());
   }
 
-  onNewGame() {
+  handleNewGame() {
     superagent
       .post('http://localhost:5000/api/v1/games/')
       .end((err, res) => {
-        this.setState({
-          gameId: res.body.gameId,
-          game: res.body
-        });
+        this.joinGame(res.body.gameId);
+        this.eventEmitter.emit("gameCreated");
       });
   }
 
-  onUndoMove() {
+  handleUndoMove() {
     superagent
       .post('http://localhost:5000/api/v1/games/' + this.state.gameId + '/undos')
       .end((err, res) => this.fetchGameInfo());
   }
 
-  onDeleteGame() {
+  handleDeleteGame() {
     superagent
       .post('http://localhost:5000/api/v1/games/' + this.state.gameId + '/delete')
-      .end((err, res) => this.setState({gameId: null, game: null}));
+      .end((err, res) => {
+        this.setState({gameId: null, game: null});
+        this.eventEmitter.emit("gameDeleted");
+      }
+    );
   }
 
   emptyBoard() {
@@ -77,20 +86,16 @@ class App extends Component {
   }
 
   render() {
-    let board = null;
-    if (!this.state.game) {
-      board = <Board pieces={this.emptyBoard()} onMakeMove={this.onMakeMove} />
-    } else {
-      board = <Board pieces={this.state.game.board} onMakeMove={this.onMakeMove} />
-    }
+    let pieces = this.state.game ? this.state.game.board : this.emptyBoard();
 
     return (
       <div className="App">
-        {board}
+        <Board
+          pieces={pieces}
+          eventEmitter={this.eventEmitter} />
         <GameOptions
+          eventEmitter={this.eventEmitter}
           gameId={this.state.gameId}
-          onJoinGame={this.onJoinGame}
-          onNewGame={this.onNewGame}
           onUndoMove={this.onUndoMove}
           onDeleteGame={this.onDeleteGame} />
       </div>
