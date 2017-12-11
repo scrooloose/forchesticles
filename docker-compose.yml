@@ -19,3 +19,5 @@ services:
     ports:
       - "5001:3000"
 
+    env_file:
+      - ./client/env

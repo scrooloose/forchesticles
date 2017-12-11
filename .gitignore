@@ -4,3 +4,4 @@ tags
 node_modules/
 .sass-cache/
 tags*
+client/env
