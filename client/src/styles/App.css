@@ -70,6 +70,13 @@
   .board .row:nth-child(2n+1) .square:nth-child(2n).in-last-move {
     background-color: #73a36c; }
 
+.piece-dialog {
+  background: white; }
+  .piece-dialog a:hover {
+    cursor: pointer; }
+    .piece-dialog a:hover img {
+      background: lightgray; }
+
 .group:after {
   content: "";
   display: table;

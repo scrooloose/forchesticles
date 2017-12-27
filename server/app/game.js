@@ -21,6 +21,12 @@ class Game {
     this.moves.push(move);
   }
 
+  promoteSquare(square, newPiece) {
+    var move = new Move(square, square, Object.clone(this.board), this.moves.length + 1);
+    this.board.promoteSquare(square, newPiece);
+    this.moves.push(move);
+  }
+
   undoMove() {
     if (this.moves.length == 0) {
       return;

@@ -61,6 +61,19 @@
     }
 }
 
+.piece-dialog {
+  background: white;
+
+  a:hover {
+    cursor: pointer;
+
+    img {
+      background: lightgray;
+    }
+  }
+}
+
+
 // https://css-tricks.com/snippets/css/clear-fix/
 .group:after {
     content: "";

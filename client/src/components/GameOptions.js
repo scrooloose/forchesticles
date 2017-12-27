@@ -5,6 +5,7 @@ class GameOptions extends Component {
 
   newGame() { this.props.eventEmitter.emit("newGame"); }
   undoMove() { this.props.eventEmitter.emit("undoMove"); }
+  showSquareDialog() { this.props.eventEmitter.emit("showSquareDialog"); }
   deleteGame() { this.props.eventEmitter.emit("deleteGame"); }
 
   render() {
@@ -15,6 +16,8 @@ class GameOptions extends Component {
           <button onClick={() => this.newGame()}>New Game</button>
           &nbsp;
           <button onClick={() => this.undoMove()}>Undo</button>
+          &nbsp;
+          <button onClick={() => this.showSquareDialog()}>Promote</button>
           &nbsp;
           <button onClick={() => this.deleteGame()} style={{color: 'red'}}>Delete Game</button>
         </div>

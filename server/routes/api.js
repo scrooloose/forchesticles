@@ -44,4 +44,13 @@ router.post('/games/:game_id/undos', function(req, res, next) {
   res.send(JSON.stringify(game.toJSON()));
 });
 
+router.post('/games/:game_id/promote_square', function(req, res, next) {
+  let game = gameRepo.find(req.params.game_id);
+  let pos = new Position(req.body.square.x, req.body.square.y);
+  let player = req.body.player;
+  let piece = new Piece(req.body.piece, pos, player);
+  game.promoteSquare(pos, piece);
+  res.send(JSON.stringify(game.toJSON()));
+});
+
 module.exports = router;

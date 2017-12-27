@@ -12,6 +12,10 @@ class Board extends Component {
     this.props.eventEmitter.on(
       "squareSelected", (args) => this.handleSquareSelected(args)
     )
+
+    this.props.eventEmitter.on(
+      "squarePromoted", () => this.setState({ selected: {} })
+    )
   }
 
   handleSquareSelected(square) {

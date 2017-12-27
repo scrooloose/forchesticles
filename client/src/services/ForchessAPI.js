@@ -30,6 +30,13 @@ class ForchessAPI {
     return this._getPromiseForPost({ url: '/games/' + gameId + '/delete' });
   }
 
+  promoteSquare({gameId, square, piece, player}) {
+    let postArgs = {
+      square, piece, player
+    };
+    return this._getPromiseForPost({ url: '/games/' + gameId + '/promote_square', body: postArgs  });
+  }
+
   _getPromiseForGet(url) {
     return fetch(this.baseurl + url).then((resp) => resp.json());
   }

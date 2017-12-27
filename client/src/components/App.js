@@ -4,6 +4,8 @@ import GameOptions from './GameOptions';
 import '../styles/App.css';
 import events from 'events';
 import ForchessAPI from '../services/ForchessAPI';
+import ReactModal from 'react-modal';
+import SquareDialog from './SquareDialog';
 
 class App extends Component {
 
@@ -11,7 +13,9 @@ class App extends Component {
     super();
     this.state = {
       game: null,
-      gameId: null
+      gameId: null,
+      showSquareDialog: false,
+      selected: { }
     };
     this.fetchGameInfo();
 
@@ -21,6 +25,10 @@ class App extends Component {
     this.eventEmitter.on("newGame", (args) => this.handleNewGame(args))
     this.eventEmitter.on("undoMove", (args) => this.handleUndoMove(args))
     this.eventEmitter.on("deleteGame", (args) => this.handleDeleteGame(args))
+    this.eventEmitter.on("promoteSquare", (args) => this.handlePromoteSquare(args))
+    this.eventEmitter.on("showSquareDialog", (args) => this.handleShowSquareDialog(args))
+    this.eventEmitter.on("squareSelected", (args) => this.handleSquareSelected(args))
+    this.eventEmitter.on("squarePromoted", (args) => this.handleSquarePromoted(args))
   }
 
   fetchGameInfo() {
@@ -76,6 +84,32 @@ class App extends Component {
     });
   }
 
+  handleCloseSquareDialog() {
+    this.setState({ showSquareDialog: false });
+  }
+
+  handleShowSquareDialog() {
+    this.setState({ showSquareDialog: true });
+  }
+
+  handlePromoteSquare({piece, player}) {
+    ForchessAPI.promoteSquare({ gameId: this.state.gameId, square: this.state.selected, piece, player })
+      .then(() => {
+        this.fetchGameInfo();
+        this.setState({ showSquareDialog: false });
+        this.eventEmitter.emit("squarePromoted");
+      }
+    );
+  }
+
+  handleSquareSelected({x,y}) {
+    this.setState({ selected: {x,y} });
+  }
+
+  handleSquarePromoted() {
+    this.setState({ selected: {} })
+  }
+
   emptyBoard() {
     return new Array(8).fill(new Array(8).fill(null));
   }
@@ -84,8 +118,24 @@ class App extends Component {
     let pieces = this.state.game ? this.state.game.board : this.emptyBoard();
     let lastMove = this.state.game ? this.state.game.lastMove : null;
 
+    let modalStyle = {
+      content: {
+        width: '375px',
+        height: '400px'
+      }
+    };
+
     return (
       <div className="App">
+        <ReactModal
+          isOpen={this.state.showSquareDialog}
+          onRequestClose={() => this.handleCloseSquareDialog()}
+          style={modalStyle}
+        >
+          <SquareDialog
+            eventEmitter={this.eventEmitter}
+          />
+        </ReactModal>
         <Board
           lastMove={lastMove}
           pieces={pieces}

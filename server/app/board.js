@@ -41,6 +41,16 @@ class Board {
     }
   }
 
+  promoteSquare(square, piece) {
+    var existingPiece = this.pieceFor(square);
+
+    if (existingPiece) {
+      this.pieces.splice(this.pieces.indexOf(existingPiece), 1);
+    }
+
+    this.pieces.push(piece);
+  }
+
   pieceFor(pos) {
     return this._pieces.find(function(piece) {
       return piece.position.isEqual(pos);
