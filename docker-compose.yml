@@ -3,6 +3,7 @@ version: "2"
 services:
   server:
     build: ./server
+    image: scrooloose/chesticles_server
     command: "nodemon ./bin/www"
     volumes:
       - ./server:/app
@@ -12,6 +13,7 @@ services:
 
   client:
     build: ./client
+    image: scrooloose/chesticles_client
     command: "npm start"
     volumes:
       - ./client:/app
