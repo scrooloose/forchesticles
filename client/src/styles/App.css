@@ -61,9 +61,14 @@
         background-image: url("/images/pieces/player4/pawn.png"); }
       .board .row .square.selected {
         background-color: #0024ff !important; }
+      .board .row .square:-moz-drag-over {
+        background-color: #ade6c3 !important; }
   .board .row:nth-child(2n) .square:nth-child(2n+1),
   .board .row:nth-child(2n+1) .square:nth-child(2n) {
     background-color: #008aff; }
+    .board .row:nth-child(2n) .square:nth-child(2n+1):-moz-drag-over,
+    .board .row:nth-child(2n+1) .square:nth-child(2n):-moz-drag-over {
+      background-color: #03a3ea !important; }
   .board .row .square.in-last-move {
     background-color: #b7ce82; }
   .board .row:nth-child(2n) .square:nth-child(2n+1).in-last-move,
