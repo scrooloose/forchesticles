@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Square from './Square';
+import _ from 'lodash';
 
 class Board extends Component {
   constructor(props) {
@@ -79,9 +80,9 @@ class Board extends Component {
     var rowKey = 0;
     return (
       <div className="board group">
-        {[7,6,5,4,3,2,1,0].map(y => (
+        {_.range(this.props.height - 1 , -1).map(y => (
           <div className="row" key={rowKey++}>
-            {[0,1,2,3,4,5,6,7].map(x => (
+            {_.range(0, this.props.width).map(x => (
               this.squareFor(x,y)
             ))}
           </div>

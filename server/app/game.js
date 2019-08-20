@@ -1,9 +1,15 @@
 Board = require("./board");
 Move = require("./move");
+GameVariation = require("./game_variation");
 
 class Game {
   constructor(id) {
-    this._board = new Board();
+    if (Math.random() > 0.5) {
+      this._board = new Board(GameVariation.standardChess());
+    } else {
+      this._board = new Board(GameVariation.miniChess());
+    }
+
     this._moves = [];
     this._id = id;
   }
@@ -39,6 +45,8 @@ class Game {
   toJSON() {
     return JSON.stringify({
       "board": this.board.toJSON(),
+      "height": this.board.height,
+      "width": this.board.height,
       "gameId": this.id,
       "lastMove": this.moves[this.moves.length-1]
     });

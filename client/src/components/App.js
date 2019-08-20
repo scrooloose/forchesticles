@@ -139,6 +139,8 @@ class App extends Component {
         <Board
           lastMove={lastMove}
           pieces={pieces}
+          height={pieces.length}
+          width={pieces[0].length}
           eventEmitter={this.eventEmitter} />
         <GameOptions
           eventEmitter={this.eventEmitter}
